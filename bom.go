@@ -119,9 +119,12 @@ func (b *BillOfMaterials) writeItem(w io.Writer, i BOMItem) error {
 	res := make([]string, 0, len(i.CustomFields)+4)
 	res = append(res, fmt.Sprintf("%d", i.Quantity))
 	res = append(res, fmt.Sprintf(`"%s"`, strings.Join(i.References, ",")))
-	res = append(res, i.Value)
-	res = append(res, i.Footprint)
-	res = append(res, i.CustomFields...)
+	res = append(res, `"`+i.Value+`"`)
+	res = append(res, `"`+i.Footprint+`"`)
+	for _, f := range i.CustomFields {
+		res = append(res, `"`+f+`"`)
+	}
+
 	_, err := fmt.Fprintln(w, strings.Join(res, ","))
 
 	return err
