@@ -18,18 +18,24 @@ func Execute() error {
 	}
 	defer f.Close()
 	dec := xml.NewDecoder(f)
-	var res KicadExport
-	err = dec.Decode(&res)
+	var e KicadExport
+	err = dec.Decode(&e)
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("%+v\n", res)
+	bom, err := NewBom(e)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("%+v", bom)
 
 	return nil
 }
 
 func main() {
+	log.SetFlags(0)
 	if err := Execute(); err != nil {
 		log.Fatalf("Exited after error: %s", err)
 	}
