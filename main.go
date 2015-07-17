@@ -5,19 +5,32 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 )
 
 func Execute() error {
-	if len(os.Args) != 2 {
-		return fmt.Errorf("Pass file to parse")
+	if len(os.Args) != 3 {
+		return fmt.Errorf("Syntax: kicad-go-bom-generator <input-xml> <output>")
+	}
+	inputFile := os.Args[1]
+	outputFile := os.Args[2]
+	if len(path.Ext(outputFile)) == 0 {
+		outputFile = outputFile + ".csv"
 	}
 
-	f, err := os.Open(os.Args[1])
+	input, err := os.Open(inputFile)
 	if err != nil {
 		return err
 	}
-	defer f.Close()
-	dec := xml.NewDecoder(f)
+	defer input.Close()
+
+	output, err := os.Create(outputFile)
+	if err != nil {
+		return err
+	}
+	defer output.Close()
+
+	dec := xml.NewDecoder(input)
 	var e KicadExport
 	err = dec.Decode(&e)
 	if err != nil {
@@ -29,8 +42,8 @@ func Execute() error {
 		return err
 	}
 
-	BOM.WriteCSV(os.Stdout)
-
+	BOM.WriteCSV(output)
+	log.Printf("Created BOM in '%s'", outputFile)
 	return nil
 }
 
