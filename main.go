@@ -24,12 +24,12 @@ func Execute() error {
 		return err
 	}
 
-	bom, err := NewBom(e)
+	BOM, err := NewBOM(e)
 	if err != nil {
 		return err
 	}
 
-	log.Printf("%+v", bom)
+	BOM.WriteCSV(os.Stdout)
 
 	return nil
 }
