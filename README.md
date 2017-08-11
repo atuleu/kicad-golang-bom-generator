@@ -2,24 +2,24 @@
 
 A [KiCad](http://www.kicad-pcb.org/) BOM tool generator. It simply
 generates a CSV qith grouped entries. An entry is grouped if its
-Value, Footprint and any Custom Field are the Same.
+Value, Footprint and any Custom Field are the same.
 
 ## Installation
 
 1. Executable installation:
 ```bash
-go get -u github.com/atuleu/kicad-golang-bon-generator
+go get -u github.com/atuleu/kicad-golang-bom-generator
 ```
 
 2. Within KiCad
   1. Go to BOM Generator
   2. Click Add Plugin
   3. Select  `$GOPATH/bin/kicad-golang-bom-generator`
-  4. Edit the command line to replace `<"%I">` by `"%I"`
+  4. Edit the command line to be `<path_to_GOBIN>/kicad-golang-bom-generator "%I" "%O.csv"`
 
 ## Example Output
 
-In thios example, some of the components have a custom `Part Number` in EESCHEMA :
+In this example, some of the components have a custom `Part Number` in EESCHEMA :
 
 ```csv
 Quantity,References,Value,Footprint,Part Number
@@ -58,6 +58,4 @@ Quantity,References,Value,Footprint,Part Number
 
 ## LICENSE
 
-This project is Licensed under GPL version 3
-
-
+This project is licensed under [GPL version 3](https://www.gnu.org/licenses/gpl-3.0.en.html).
